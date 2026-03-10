@@ -3,10 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testing Page</title>
+    <title>Ultimate Nepal Travel Guide</title>
+    <style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(to right, #fceabb, #f8b500);
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #ff6f61;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 5px 15px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: #ff998c; }
+
+        header {
+            background-color: #ff6f61;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        header h1 { margin: 0; font-size: 3em; }
+        header p { font-size: 1.2em; }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 40px 20px;
+            gap: 25px;
+        }
+
+        .destination {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .destination:hover { transform: scale(1.05); }
+
+        .destination img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .destination h2 { margin: 15px 0 10px 0; }
+        .destination p { padding: 0 15px; font-size: 0.95em; }
+
+        .destination a {
+            display: inline-block;
+            margin: 15px 0 20px 0;
+            padding: 10px 20px;
+            background-color: #ff6f61;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .destination a:hover { background-color: #ff998c; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #ff6f61;
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* Back to Top Button */
+        #topBtn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #ff6f61;
+            color: white;
+            cursor: pointer;
+            padding: 12px 18px;
+            border-radius: 50px;
+            transition: background-color 0.3s;
+        }
+
+        #topBtn:hover { background-color: #ff998c; }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Testing Page</h1>
-    <p>This is a simple test page.</p>
+
+<!-- Navigation -->
+<nav>
+    <a href="#everest">Mount Everest</a>
+    <a href="#annapurna">Annapurna</a>
+    <a href="#pashupatinath">Pashupatinath Temple</a>
+    <a href="#pokhara">Pokhara</a>
+    <a href="#lumbini">Lumbini</a>
+    <a href="#chitwan">Chitwan National Park</a>
+    <a href="#bhaktapur">Bhaktapur</a>
+</nav>
+
+<header>
+    <h1>Ultimate Nepal Travel Guide</h1>
+    <p>Explore mountains, lakes, temples, wildlife, and adventure!</p>
+</header>
+
+<main>
+    <div class="destination" id="everest">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg/320px-Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg" alt="Mount Everest">
+        <h2>Mount Everest</h2>
+        <p>The world’s tallest peak! Trek to Base Camp or admire from afar.</p>
+        <a href="https://en.wikipedia.org/wiki/Mount_Everest" target="_blank">Learn More</a>
+    </div>
+
+    <div class="destination" id="annapurna">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Annapurna_Massif.jpg/320px-Annapurna_Massif.jpg" alt="Annapurna">
+        <h2>Annapurna</h2>
+        <p>Popular trekking region with breathtaking Himalayan views.</p>
+        <a href="https://en.wikipedia.org/wiki/Annapurna" target="_blank">Learn More</a>
+    </div>
+
+    <div class="destination" id="pashupatinath">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Pashupatinath_Temple_-_Nepal_-_2009.JPG/320px-Pashupatinath_Temple_-_Nepal_-_2009.JPG" alt="Pashupatinath Temple">
+        <h2>Pashupatinath Temple</h2>
+        <p>One of the holiest Hindu temples located in Kathmandu.</p>
+        <a href="https://en.wikipedia.org/wiki/Pashupatinath_Temple" target="_blank">Learn More</a>
+    </div>
+
+    <div class="destination" id="pokhara">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Pokhara_Fewa_Lake.jpg/320px-Pokhara_Fewa_Lake.jpg" alt="Pokhara">
+        <h2>Pokhara</h2>
+        <p>Beautiful lakes, paragliding, and serene Himalayan views.</p>
+        <a href="https://en.wikipedia.org/wiki/Pokhara" target="_blank">Learn More</a>
+    </div>
+
+    <div class="destination" id="lumbini">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Lumbini_Maya_Temple.jpg/320px-Lumbini_Maya_Temple.jpg" alt="Lumbini">
+        <h2>Lumbini</h2>
+        <p>Birthplace of Buddha, a peaceful and spiritual destination.</p>
+        <a href="https://en.wikipedia.org/wiki/Lumbini" target="_blank">Learn More</a>
+    </div>
+
+    <div class="destination" id="chitwan">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Chitwan_National_Park_Nepal.jpg/320px-Chitwan_National_Park_Nepal.jpg" alt="Chitwan National Park">
+        <h2>Chitwan National Park</h2>
+        <p>Home to wildlife like rhinos, tigers, and elephants. Safari adventures await!</p>
+        <a href="https://en.wikipedia.org/wiki/Chitwan_National_Park" target="_blank">Learn More</a>
+    </div>
+
+    <div class="destination" id="bhaktapur">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Bhaktapur_Durbar_Square_2010.jpg/320px-Bhaktapur_Durbar_Square_2010.jpg" alt="Bhaktapur">
+        <h2>Bhaktapur</h2>
+        <p>An ancient city full of temples, palaces, and traditional Newari architecture.</p>
+        <a href="https://en.wikipedia.org/wiki/Bhaktapur" target="_blank">Learn More</a>
+    </div>
+</main>
+
+<!-- Back to Top Button -->
+<button onclick="topFunction()" id="topBtn" title="Go to top">↑ Top</button>
+
+<footer>
+    &copy; 2026 Ultimate Nepal Travel Guide | All Rights Reserved
+</footer>
+
+<script>
+    const topBtn = document.getElementById("topBtn");
+    window.onscroll = function() {
+        topBtn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? "block" : "none";
+    };
+    function topFunction() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
 </body>
 </html>
