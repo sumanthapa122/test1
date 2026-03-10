@@ -12,7 +12,7 @@ body { font-family: Arial, sans-serif; margin:0; background: linear-gradient(to 
 nav { background-color: #ff6f61; display:flex; flex-wrap:wrap; justify-content:center; padding:15px 0; position:sticky; top:0; z-index:100; }
 nav a { color:white; text-decoration:none; margin:5px 15px; font-weight:bold; transition:color 0.3s; }
 nav a:hover { color:#ff998c; }
-.hero { position: relative; background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/9a/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg'); background-size: cover; background-position: center; height: 500px; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+.hero { position: relative; background-image: url('https://images.unsplash.com/photo-1508261301806-7b0b09c57f45?ixlib=rb-4.0.3&fm=jpg&w=1200'); background-size: cover; background-position: center; height: 500px; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
 .hero-overlay { background-color: rgba(0,0,0,0.5); position: absolute; top:0; left:0; width:100%; height:100%; }
 .hero-content { position: relative; z-index:2; }
 .hero h1 { font-size:3em; margin-bottom:10px; }
@@ -20,7 +20,7 @@ nav a:hover { color:#ff998c; }
 .hero button { background-color:#ff6f61; border:none; color:white; padding:12px 20px; margin:0 10px; font-size:1em; border-radius:8px; cursor:pointer; transition: background-color 0.3s; }
 .hero button:hover { background-color:#ff998c; }
 main { display:flex; flex-wrap:wrap; justify-content:center; padding:40px 20px; gap:25px; }
-.destination { background-color:white; border-radius:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); width:300px; text-align:center; overflow:hidden; transition:transform 0.3s; }
+.destination { background-color:white; border-radius:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); width:300px; text-align:center; overflow:hidden; transition:transform 0.3s; display:flex; flex-direction: column; }
 .destination:hover { transform:scale(1.05); }
 .destination h2 { margin:15px 0 10px 0; }
 .destination p { padding:0 15px; font-size:0.95em; }
@@ -28,11 +28,17 @@ main { display:flex; flex-wrap:wrap; justify-content:center; padding:40px 20px; 
 .packages ul { list-style:none; padding-left:0; }
 .packages li { margin-bottom:6px; font-size:0.95em; }
 .packages li i { margin-right:8px; color:#ff6f61; }
-.slider { position:relative; width:100%; height:200px; overflow:hidden; touch-action: pan-y; }
-.slide { position:absolute; width:100%; height:100%; display:none; object-fit:cover; transition:opacity 0.5s ease-in-out; }
-.slide.active { display:block; opacity:1; }
 .destination a { display:inline-block; margin:15px 0 20px 0; padding:10px 20px; background-color:#ff6f61; color:white; text-decoration:none; border-radius:8px; transition: background-color 0.3s; }
 .destination a:hover { background-color:#ff998c; }
+.slider { position: relative; width: 100%; height: 300px; overflow: hidden; margin: 0; border-radius: 0; transition: transform 0.5s; }
+.slider:hover { transform: scale(1.03); }
+.slide { position: absolute; width: 100%; height: 100%; display: none; object-fit: cover; transition: opacity 0.5s ease-in-out; }
+.slide.active { display:block; opacity:1; }
+.prev, .next { position: absolute; top:50%; transform: translateY(-50%); background-color: rgba(0,0,0,0.5); color:white; border:none; font-size:28px; padding:8px 12px; cursor:pointer; border-radius:50%; }
+.prev { left:10px; } .next { right:10px; }
+.dots { text-align:center; position:absolute; bottom:12px; width:100%; }
+.dot { height:12px; width:12px; margin:0 4px; background-color: rgba(255,255,255,0.7); display:inline-block; border-radius:50%; cursor:pointer; transition: background-color 0.3s; }
+.dot.active { background-color:#ff6f61; }
 footer { text-align:center; padding:20px; background-color:#ff6f61; color:white; margin-top:40px; }
 #topBtn { display:none; position:fixed; bottom:30px; right:30px; z-index:99; font-size:18px; border:none; outline:none; background-color:#ff6f61; color:white; cursor:pointer; padding:12px 18px; border-radius:50px; transition: background-color 0.3s; }
 #topBtn:hover { background-color:#ff998c; }
@@ -79,29 +85,96 @@ const topBtn = document.getElementById("topBtn");
 window.onscroll = function(){ topBtn.style.display=(document.body.scrollTop>300 || document.documentElement.scrollTop>300)?"block":"none"; };
 function topFunction(){ window.scrollTo({top:0, behavior:'smooth'}); }
 
-// Destinations with coordinates
+// Destination definitions with working image URLs
 const destinations = [
-    {id:"everest", name:"Mount Everest", coords:[27.9881,86.9250], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg/320px-Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Mount_Everest_from_Gokyo_Ri_November_2012.jpg/320px-Mount_Everest_from_Gokyo_Ri_November_2012.jpg"], desc:"The world’s tallest peak! Trek to Base Camp or admire from afar.", packages:[{icon:"fa-mountain",text:"Everest Base Camp Trek - 14 Days"},{icon:"fa-plane-departure",text:"Scenic Everest Flight - 1 Day"}]},
-    {id:"annapurna", name:"Annapurna", coords:[28.5965,83.8203], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Annapurna_Massif.jpg/320px-Annapurna_Massif.jpg"], desc:"Popular trekking region with breathtaking Himalayan views.", packages:[{icon:"fa-mountain",text:"Annapurna Circuit Trek - 12 Days"}]},
-    {id:"pokhara", name:"Pokhara", coords:[28.2096,83.9856], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Pokhara_Fewa_Lake.jpg/320px-Pokhara_Fewa_Lake.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Fishtail_Mountain_Pokhara.jpg/320px-Fishtail_Mountain_Pokhara.jpg"], desc:"Beautiful lakes, paragliding, and serene Himalayan views.", packages:[{icon:"fa-umbrella-beach",text:"Phewa Lake Boating - Half Day"},{icon:"fa-parachute-box",text:"Paragliding Adventure - Full Day"}]},
-    {id:"pashupatinath", name:"Pashupatinath Temple", coords:[27.7106,85.3488], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Pashupatinath_Temple_-_Nepal_-_2009.JPG/320px-Pashupatinath_Temple_-_Nepal_-_2009.JPG","https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Pashupatinath_ceremony.jpg/320px-Pashupatinath_ceremony.jpg"], desc:"One of the holiest Hindu temples located in Kathmandu.", packages:[{icon:"fa-pray",text:"Temple Visit - Half Day"},{icon:"fa-landmark",text:"Cultural Tour of Kathmandu - 1 Day"}]},
-    {id:"lumbini", name:"Lumbini", coords:[27.4845,83.2750], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Lumbini_Maya_Temple.jpg/320px-Lumbini_Maya_Temple.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Lumbini_Monastery.jpg/320px-Lumbini_Monastery.jpg"], desc:"Birthplace of Buddha, a peaceful and spiritual destination.", packages:[{icon:"fa-pray",text:"Lumbini Temple Visit - Half Day"},{icon:"fa-landmark",text:"Full Spiritual Tour - 1 Day"}]},
-    {id:"chitwan", name:"Chitwan National Park", coords:[27.5291,84.3542], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Chitwan_National_Park_Nepal.jpg/320px-Chitwan_National_Park_Nepal.jpg"], desc:"Home to wildlife like rhinos, tigers, and elephants. Safari adventures await!", packages:[{icon:"fa-paw",text:"Jungle Safari - Full Day"}]},
-    {id:"bhaktapur", name:"Bhaktapur", coords:[27.6710,85.4278], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Bhaktapur_Durbar_Square_2010.jpg/320px-Bhaktapur_Durbar_Square_2010.jpg"], desc:"An ancient city full of temples, palaces, and traditional Newari architecture.", packages:[{icon:"fa-landmark",text:"Heritage Walk - Half Day"}]},
-    {id:"nagarkot", name:"Nagarkot", coords:[27.7075,85.4165], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Nagarkot_Himalaya.jpg/320px-Nagarkot_Himalaya.jpg"], desc:"Famous for sunrise views over the Himalayas.", packages:[{icon:"fa-sun",text:"Sunrise View - Early Morning"}]},
-    {id:"bandipur", name:"Bandipur", coords:[27.9487,84.4202], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Bandipur_nepal.jpg/320px-Bandipur_nepal.jpg"], desc:"Hilltop town with preserved cultural heritage and scenic views.", packages:[{icon:"fa-landmark",text:"Heritage Tour - Half Day"}]},
-    {id:"rara", name:"Rara Lake", coords:[29.5069,82.2152], slides:["https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Rara_Lake_Nepal.jpg/320px-Rara_Lake_Nepal.jpg"], desc:"Nepal's largest lake, located in remote northwest.", packages:[{icon:"fa-water",text:"Lake Exploration - Full Day"}]}
+    {
+      id:"everest", name:"Mount Everest", coords:[27.9881,86.9250],
+      slides:[
+        "https://images.unsplash.com/photo-1508261301806-7b0b09c57f45?ixlib=rb-4.0.3&fm=jpg&w=900",
+        "https://images.unsplash.com/photo-1549887536-3540b761f78e?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"The world’s tallest peak! Trek to Base Camp or admire from afar.",
+      packages:[{icon:"fa-mountain",text:"Everest Base Camp Trek - 14 Days"},{icon:"fa-plane-departure",text:"Scenic Everest Flight - 1 Day"}]
+    },
+    {
+      id:"annapurna", name:"Annapurna", coords:[28.5965,83.8203],
+      slides:[
+        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"Popular trekking region with breathtaking Himalayan views.",
+      packages:[{icon:"fa-mountain",text:"Annapurna Circuit Trek - 12 Days"}]
+    },
+    {
+      id:"pokhara", name:"Pokhara", coords:[28.2096,83.9856],
+      slides:[
+        "https://images.unsplash.com/photo-1508268161623-8b80e171045e?ixlib=rb-4.0.3&fm=jpg&w=900",
+        "https://images.unsplash.com/photo-1497136079783-7a7d0bea2d9f?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"Beautiful lakes, paragliding, and serene Himalayan views.", packages:[{icon:"fa-umbrella-beach",text:"Phewa Lake Boating - Half Day"},{icon:"fa-parachute-box",text:"Paragliding Adventure - Full Day"}]
+    },
+    {
+      id:"pashupatinath", name:"Pashupatinath Temple", coords:[27.7106,85.3488],
+      slides:[
+        "https://images.unsplash.com/photo-1546484959-9f85779ddfcc?ixlib=rb-4.0.3&fm=jpg&w=900",
+        "https://images.unsplash.com/photo-1564013799919-2e5f657d4458?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"One of the holiest Hindu temples located in Kathmandu.", packages:[{icon:"fa-pray",text:"Temple Visit - Half Day"},{icon:"fa-landmark",text:"Cultural Tour of Kathmandu - 1 Day"}]
+    },
+    {
+      id:"lumbini", name:"Lumbini", coords:[27.4845,83.2750],
+      slides:[
+        "https://images.unsplash.com/photo-1521719837168-6fc6abbd8a1e?ixlib=rb-4.0.3&fm=jpg&w=900",
+        "https://images.unsplash.com/photo-1567161083898-e8d76a1b2c49?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"Birthplace of Buddha, a peaceful and spiritual destination.", packages:[{icon:"fa-pray",text:"Lumbini Temple Visit - Half Day"},{icon:"fa-landmark",text:"Full Spiritual Tour - 1 Day"}]
+    },
+    {
+      id:"chitwan", name:"Chitwan National Park", coords:[27.5291,84.3542],
+      slides:[
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"Home to wildlife like rhinos, tigers, and elephants. Safari adventures await!", packages:[{icon:"fa-paw",text:"Jungle Safari - Full Day"}]
+    },
+    {
+      id:"bhaktapur", name:"Bhaktapur", coords:[27.6710,85.4278],
+      slides:[
+        "https://images.unsplash.com/photo-1537151674280-6adf0178a1c1?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"An ancient city full of temples, palaces, and traditional Newari architecture.", packages:[{icon:"fa-landmark",text:"Heritage Walk - Half Day"}]
+    },
+    {
+      id:"nagarkot", name:"Nagarkot", coords:[27.7075,85.4165],
+      slides:[
+        "https://images.unsplash.com/photo-1515263878670-7b1f88c2f50d?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"Famous for sunrise views over the Himalayas.", packages:[{icon:"fa-sun",text:"Sunrise View - Early Morning"}]
+    },
+    {
+      id:"bandipur", name:"Bandipur", coords:[27.9487,84.4202],
+      slides:[
+        "https://images.unsplash.com/photo-1519608487953-e999c86e7455?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"Hilltop town with preserved cultural heritage and scenic views.", packages:[{icon:"fa-landmark",text:"Heritage Tour - Half Day"}]
+    },
+    {
+      id:"rara", name:"Rara Lake", coords:[29.5069,82.2152],
+      slides:[
+        "https://images.unsplash.com/photo-1509927088529-c4ed1ebdb13b?ixlib=rb-4.0.3&fm=jpg&w=900"
+      ],
+      desc:"Nepal's largest lake, located in remote northwest.", packages:[{icon:"fa-water",text:"Lake Exploration - Full Day"}]
+    }
 ];
-
-// Render destination cards
+    // Render destination cards
 const main = document.querySelector("main");
-destinations.forEach(dest=>{
+destinations.forEach(dest => {
     const div = document.createElement("div");
-    div.className="destination"; div.id=dest.id;
+    div.className = "destination"; div.id = dest.id;
     let sliderHTML = `<div class="slider">`; 
-    dest.slides.forEach((src,i)=> sliderHTML += `<img src="${src}" class="slide ${i==0?'active':''}" alt="${dest.name} image ${i+1}">`);
+    dest.slides.forEach((src, i) => sliderHTML += `<img src="${src}" class="slide ${i==0?'active':''}" alt="${dest.name} image ${i+1}">`);
     sliderHTML += `</div>`;
-    div.innerHTML = sliderHTML + `<h2>${dest.name}</h2><p>${dest.desc}</p><div class="packages"><strong>Packages:</strong><ul>` + dest.packages.map(p=>`<li><i class="fas ${p.icon}"></i>${p.text}</li>`).join('') + `</ul></div><a href="https://en.wikipedia.org/wiki/${dest.name.replace(/ /g,"_")}" target="_blank">Learn More</a>`;
+    div.innerHTML = sliderHTML + `<h2>${dest.name}</h2><p>${dest.desc}</p><div class="packages"><strong>Packages:</strong><ul>` +
+        dest.packages.map(p => `<li><i class="fas ${p.icon}"></i>${p.text}</li>`).join('') +
+        `</ul></div><a href="https://en.wikipedia.org/wiki/${dest.name.replace(/ /g,"_")}" target="_blank">Learn More</a>`;
     main.appendChild(div);
 });
 
